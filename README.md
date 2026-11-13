@@ -1,22 +1,23 @@
 # AI Governance Risk Assessment
 
 A GRC tool that assesses AI use cases against the **NIST AI Risk Management
-Framework (AI RMF)** — GOVERN / MAP / MEASURE / MANAGE — with control themes
-from **ISO/IEC 42001** (AI management systems). Each use case is tiered by
-inherent risk, the governance controls required at that tier are derived
-automatically, and the tool flags the specific gaps in the recorded control
-posture — producing a per-use-case checklist and a portfolio-level summary.
+Framework (AI RMF)**: GOVERN / MAP / MEASURE / MANAGE. It also uses control
+themes from **ISO/IEC 42001** (AI management systems). Each use case gets
+tiered by inherent risk. The tool then works out which governance controls
+that tier requires and flags where the recorded control posture falls short.
+The output is a checklist for each use case, plus a summary across the
+whole portfolio.
 
 ## The problem it solves
 
 Organisations are deploying AI faster than they are governing it. A chatbot,
-a screening tool, and an autonomous fraud model often sit in the same
-spreadsheet with the same (or no) controls, even though their risk profiles
-differ enormously. This tool operationalises the first step of an AI
-governance programme: **inventory → tier by inherent risk → require
-proportionate controls → evidence the gaps**. It gives GRC teams a
-repeatable, framework-mapped starting point for an AI risk register instead
-of a blank page.
+a screening tool and an autonomous fraud model often end up in the same
+spreadsheet with the same controls. Sometimes they have no controls at all.
+Their risk profiles are nothing alike, though. This tool covers the first
+step of an AI governance programme: **inventory → tier by inherent risk →
+require proportionate controls → evidence the gaps**. For a GRC team
+starting an AI risk register, it is a repeatable starting point mapped to
+the frameworks, instead of a blank page.
 
 ## How tiering works
 
@@ -30,16 +31,16 @@ Each use case is scored additively on five factors:
 | User impact | low 0 · medium 1 · high 3 |
 | Model source | in-house 0 · third-party 1 |
 
-Score → tier: **0–3 Low · 4–6 Moderate · 7–9 High · 10+ Critical**.
-Required controls are cumulative by tier (12 controls in the catalogue,
-each mapped to an AI RMF subcategory and an ISO/IEC 42001 theme). At High
-tier and above, third-party models additionally require vendor due
-diligence. In a real programme, Critical tier would also trigger executive
-approval and board-level reporting before deployment.
+Score to tier: **0 to 3 Low · 4 to 6 Moderate · 7 to 9 High · 10+ Critical**.
+Required controls are cumulative by tier. There are 12 controls in the
+catalogue, and each one maps to an AI RMF subcategory and an ISO/IEC 42001
+theme. At High tier and above, third-party models also need vendor due
+diligence. In a real programme, Critical tier would trigger executive
+approval and board-level reporting before deployment too.
 
 ## How to run
 
-Demo mode (bundled fictional portfolio — 6 use cases):
+Demo mode, using the bundled fictional portfolio (6 use cases):
 
 ```bash
 python3 assess.py --demo
@@ -181,30 +182,31 @@ Highest-tier gaps to remediate first:
 
 ## Reading the results
 
-The demo portfolio tells a familiar story. The highest-risk system — the
+The demo portfolio tells a familiar story. The highest-risk system is the
 **HR Screening Assistant** (Critical: restricted data, high user impact,
-third-party model) — has the weakest posture: no bias testing on a tool
-that influences employment decisions, no documented human override, and no
-AI incident process. Meanwhile the portfolio-wide coverage table shows the
-systemic gaps: **transparency (2/6)** and **periodic re-assessment (1/4)**
-lag everywhere, which is exactly where an AI governance programme should
-start.
+third-party model), and it has the weakest posture. There is no bias testing
+on a tool that influences employment decisions. No documented human override.
+No AI incident process. The portfolio-wide coverage table shows gaps that
+run across the board too. **Transparency (2/6)** and **periodic
+re-assessment (1/4)** lag everywhere. That is exactly where an AI governance
+programme should start.
 
 ## Design notes and limitations
 
-- The scoring model is deliberately transparent and additive so any tier
+- The scoring model is deliberately transparent and additive, so any tier
   can be explained and challenged factor by factor. Real programmes should
-  calibrate weights and thresholds to their regulatory context (e.g., EU
-  AI Act prohibited/high-risk categories would override a points model for
-  in-scope systems).
+  calibrate the weights and thresholds to their regulatory context. For
+  example, EU AI Act prohibited and high-risk categories would override a
+  points model for in-scope systems.
 - Control requirements are cumulative by tier and based on the AI RMF
-  subcategory structure; the ISO/IEC 42001 references are thematic mappings
-  to management-system clauses/Annex A themes, not a conformity assessment.
-- The tool consumes a self-reported control inventory (`controls_in_place`);
-  it does not validate that controls operate effectively. Pair it with
-  evidence review and testing — as with any GRC self-assessment.
+  subcategory structure. The ISO/IEC 42001 references are thematic mappings
+  to management-system clauses and Annex A themes. They are not a conformity
+  assessment.
+- The tool takes a self-reported control inventory (`controls_in_place`).
+  It does not check whether those controls actually work. Pair it with
+  evidence review and testing, as you would with any GRC self-assessment.
 - All sample organisations, systems, and data are fictional.
 
 ## License
 
-MIT — see `LICENSE`.
+MIT. See `LICENSE`.
